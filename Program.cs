@@ -4,12 +4,14 @@ namespace MTGComparison {
     class Program {
         static void Main(string[] args) {
             if(args.Length < 2) {
-                PrintError("Missing required fields\nMTGComp {Path to first deck} {Path to second deck}");
+                PrintError("Missing required fields\nMTGComp {Path to first deck} {Path to second deck} {Optional path to output file}");
                 return;
             }
-            Deck deck = Deck.getDeckFromFile("test.txt");
-            Deck deck2 = Deck.getDeckFromFile("test2.txt");
-            Compare(deck, deck2);
+            Deck deck = Deck.getDeckFromFile(args[0]);
+            Deck deck2 = Deck.getDeckFromFile(args[1]);
+            Deck[] result = Compare(deck, deck2);
+            if(args.Length > 2) 
+                Deck.writeToFile(args[2], result);
         }
         public static void PrintError(string message) {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -32,20 +34,20 @@ namespace MTGComparison {
             Console.WriteLine(message);
             Console.ResetColor();
         }
-        public static void Compare(Deck deckA, Deck deckB) {
+        public static Deck[] Compare(Deck deckA, Deck deckB) {
             if(deckA == null || deckB == null)
-                return;
+                return null;
             Deck[] result = Deck.Compare(deckA, deckB);
             if(result == null || result.Length != 2) {
                 PrintError("The comparison between the two decks has failed");
-                return;
+                return null;
             }
             PrintSuccess("\nAdd " + result[0].Count + " cards:");
             Console.WriteLine(result[0]);
             PrintSuccess("\nRemove " + result[1].Count + " cards:");
             Console.WriteLine(result[1]);
 
-            Deck.writeToFile("result.txt", result);
+            return result;
         }
     }
 }
