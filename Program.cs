@@ -16,10 +16,16 @@ namespace MTGComparison {
             Console.WriteLine(message);
             Console.ResetColor();
         }
-        public static void PrintWarning(string message) {
+        public static void PrintWarning(string message, bool writeLine) {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(message);
+            if(writeLine)
+                Console.WriteLine(message);
+            else
+                Console.Write(message);
             Console.ResetColor();
+        }
+        public static void PrintWarning(string message) {
+            PrintWarning(message, false);
         }
         public static void PrintSuccess(string message) {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -38,6 +44,8 @@ namespace MTGComparison {
             Console.WriteLine(result[0]);
             PrintSuccess("\nRemove " + result[1].Count + " cards:");
             Console.WriteLine(result[1]);
+
+            Deck.writeToFile("result.txt", result);
         }
     }
 }

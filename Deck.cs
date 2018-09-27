@@ -64,6 +64,27 @@ namespace MTGComparison {
             }
             return result;
         }
+        public static void writeToFile(string filename, Deck[] decks) {
+            if(decks.Length != 2) {
+                Program.PrintError("\nSomething went wrong while writing the result to file");
+                return;
+            }
+            if(File.Exists(filename)) {
+                Program.PrintWarning("\nThe file exists, are you sure you want to override it? ", false);
+                bool overwrite = Console.ReadLine().ToLower().Contains("y");
+                if(!overwrite) 
+                    return;
+            }
+            else
+                Console.WriteLine();
+            String result = "Add " + decks[0].Count + " cards:\n";
+            result += decks[0];
+            result += "\n\nRemove " + decks[1].Count + " cards:\n";
+            result += decks[1];
+
+            File.WriteAllText(filename, result);
+            Program.PrintSuccess("Successfully wrote the results to: " + filename);
+        }
         public static Deck[] Compare(Deck startDeck, Deck endDeck) {
             Deck add = new Deck(), remove = new Deck();
             foreach(string card in startDeck.getCards()) {
@@ -85,7 +106,7 @@ namespace MTGComparison {
             foreach(string card in cards.Keys)
                 result += cards[card] + "x " + card + "\n";
             if(result.Length > 0)
-                return result.Substring(0, result.Length-1);
+                return result.TrimEnd();
             return result;
         }
         private int getLength() {
