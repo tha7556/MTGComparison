@@ -18,16 +18,16 @@ namespace MTGComparison {
                 return 0;                    
             }
             set {
-                if(cards.ContainsKey(card))
-                    cards[card] = value;
+                if(cards.ContainsKey(card.ToLower()))
+                    cards[card.ToLower()] = value;
                 else
-                    cards.Add(card, value);
+                    cards.Add(card.ToLower(), value);
             }
         }
         public bool Contains(string card) {
             return cards.ContainsKey(card.ToLower());
         }
-        public string[] getCards() {
+        public string[] GetCards() {
             string[] result = new string[cards.Count];
             int i = 0;
             foreach(string card in cards.Keys) {
@@ -36,7 +36,7 @@ namespace MTGComparison {
             }
             return result;
         }
-        public static Deck getDeckFromFile(string filename) {
+        public static Deck GetDeckFromFile(string filename) {
             if(!File.Exists(filename)) {
                 Program.PrintError("File: '" + filename + "' not found");
                 return null;
@@ -56,15 +56,20 @@ namespace MTGComparison {
                 if(index != -1) {
                     name = name.Substring(0, index);
                 }
+                index = name.IndexOf('*');
+                if (index != -1) {
+                    name = name.Substring(0, index);
+                }
                 name = name.Trim();
                 if(result.Contains(name))
                     result[name] = result[name] + quantity;
                 else
                     result[name] = quantity;
             }
+            
             return result;
         }
-        public static void writeToFile(string filename, Deck[] decks) {
+        public static void WriteToFile(string filename, Deck[] decks) {
             if(decks.Length != 2) {
                 Program.PrintError("\nSomething went wrong while writing the result to file");
                 return;
@@ -77,7 +82,7 @@ namespace MTGComparison {
             }
             else
                 Console.WriteLine();
-            String result = "Add " + decks[0].Count + " cards:\n";
+            string result = "Add " + decks[0].Count + " cards:\n";
             result += decks[0];
             result += "\n\nRemove " + decks[1].Count + " cards:\n";
             result += decks[1];
@@ -87,16 +92,16 @@ namespace MTGComparison {
         }
         public static Deck[] Compare(Deck startDeck, Deck endDeck) {
             Deck add = new Deck(), remove = new Deck();
-            foreach(string card in startDeck.getCards()) {
+            foreach(string card in startDeck.GetCards()) {
                 if(endDeck[card] < startDeck[card])
                     remove[card] = startDeck[card] - endDeck[card];
                 else if(endDeck[card] > startDeck[card])
                     add[card] = endDeck[card] - startDeck[card];
             }
-            foreach(string card in endDeck.getCards()) {
-                if(endDeck[card] < startDeck[card])
+            foreach(string card in endDeck.GetCards()) {
+                if (endDeck[card] < startDeck[card])
                     remove[card] = startDeck[card] - endDeck[card];
-                else if(endDeck[card] > startDeck[card])
+                else if (endDeck[card] > startDeck[card])
                     add[card] = endDeck[card] - startDeck[card];
             }
             return new Deck[] {add, remove};
