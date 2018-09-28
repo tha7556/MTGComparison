@@ -15,11 +15,11 @@ namespace MTGComparison {
                 PrintError("Missing required fields\nMTGComp {Path to first deck} {Path to second deck} {Optional path to output file}");
                 return;
             }
-            Deck deck = Deck.getDeckFromFile(args[0]);
-            Deck deck2 = Deck.getDeckFromFile(args[1]);
+            Deck deck = Deck.GetDeckFromFile(args[0]);
+            Deck deck2 = Deck.GetDeckFromFile(args[1]);
             Deck[] result = Compare(deck, deck2);
             if(args.Length > 2) 
-                Deck.writeToFile(args[2], result);
+                Deck.WriteToFile(args[2], result);
         }
         public static void PrintError(string message) {
             Console.ForegroundColor = ConsoleColor.Red;
