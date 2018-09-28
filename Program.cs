@@ -5,7 +5,7 @@ namespace MTGComparison {
         static void Main(string[] args) {
             if(args.Length == 1 && args[0].ToLower().Contains("h")) {
                 Console.WriteLine("This program is intended to help find the differences between 2 MTG decklists stored in 2 files (.txt is probably best).\n" +
-                "The layout for the file should be identical to how TappedOut or most online MTG card shops format decklists. For example:");
+                "The layout for the file should be identical to how TappedOut or most online MTG card shops format decklists.\nFor example:");
                 PrintSuccess("\n5x Island\n1x Sol Ring\n1x Commander Sphere\n");
                 Console.WriteLine("To execute the program, just give it the paths to the 2 decks and optionally the path you want to save the output to");
                 PrintSuccess("MTGComparison {Original Deck} {Modified Deck} {Optional File to save to}");
