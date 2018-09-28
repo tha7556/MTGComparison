@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace MTGComparison {
-    class Program {
+    public class Program {
         static void Main(string[] args) {
             if(args.Length == 1 && args[0].ToLower().Contains("h")) {
                 Console.WriteLine("This program is intended to help find the differences between 2 MTG decklists stored in 2 files (.txt is probably best).\n" +
